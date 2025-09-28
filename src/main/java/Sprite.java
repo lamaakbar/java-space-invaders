@@ -2,7 +2,7 @@ import java.awt.Image;
 
 /**
  * 
- * @author
+ * @author Lama Akbar
  */
 public class Sprite {
 

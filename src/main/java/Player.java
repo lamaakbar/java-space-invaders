@@ -1,17 +1,15 @@
 import java.awt.event.KeyEvent;
-
 import javax.swing.ImageIcon;
 
 /**
  * 
- * @author
+ * @author Lama Akbar
  */
 public class Player extends Sprite implements Commons {
 
-	private static Player instance;
+	private static Player instance; // Static instance variable
 	private final int START_Y = 400;
 	private final int START_X = 270;
-
 	private final String player = "/img/craft.png";
 	private int width;
 
