@@ -16,7 +16,7 @@ public class Alien extends Sprite {
         this.x = x;
         this.y = y;
 
-        bomb = new Bomb(x, y);
+        bomb = (Bomb) Sprite.createSprite("bomb", x, y);
         ImageIcon ii = new ImageIcon(this.getClass().getResource(alien));
         setImage(ii.getImage());
 

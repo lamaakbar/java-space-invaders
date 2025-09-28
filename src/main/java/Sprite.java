@@ -62,4 +62,36 @@ public class Sprite {
         public boolean isDying() {
             return this.dying;
         }
+
+        /*
+         * Factory Method for creating different types of sprites
+         */
+        public static Sprite createSprite(String type) {
+            switch (type.toLowerCase()) {
+                case "alien":
+                    return new Alien(0, 0);
+                case "shot":
+                    return new Shot();
+                case "bomb":
+                    return new Bomb(0, 0);
+                default:
+                    throw new IllegalArgumentException("Unknown sprite type: " + type);
+            }
+        }
+
+        /*
+         * Factory Method for creating sprites with coordinates
+         */
+        public static Sprite createSprite(String type, int x, int y) {
+            switch (type.toLowerCase()) {
+                case "alien":
+                    return new Alien(x, y);
+                case "shot":
+                    return new Shot(x, y);
+                case "bomb":
+                    return new Bomb(x, y);
+                default:
+                    throw new IllegalArgumentException("Unknown sprite type: " + type);
+            }
+        }
 }

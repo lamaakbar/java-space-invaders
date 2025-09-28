@@ -13,7 +13,6 @@ import java.util.Random;
 
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
-import javax.imageio.ImageIO;
 
 /**
  * 
@@ -71,14 +70,14 @@ public class Board extends JPanel implements Runnable, Commons {
 
 		for (int i = 0; i < 4; i++) {
 			for (int j = 0; j < 6; j++) {
-				Alien alien = new Alien(alienX + 18 * j, alienY + 18 * i);
+				Alien alien = (Alien) Sprite.createSprite("alien", alienX + 18 * j, alienY + 18 * i);
 				alien.setImage(ii.getImage());
 				aliens.add(alien);
 			}
 		}
 
-		player = new Player();
-		shot = new Shot();
+		player = Player.getInstance();
+		shot = (Shot) Sprite.createSprite("shot");
 
 		if (animator == null || !ingame) {
 			animator = new Thread(this);
@@ -187,7 +186,7 @@ public class Board extends JPanel implements Runnable, Commons {
 	public void animationCycle() {
 		if (deaths == NUMBER_OF_ALIENS_TO_DESTROY) {
 			ingame = false;
-			message = "Parabéns! Você salvou a galáxia!";
+			message = "Parabï¿½ns! Vocï¿½ salvou a galï¿½xia!";
 		}
 
 		// player
@@ -266,7 +265,7 @@ public class Board extends JPanel implements Runnable, Commons {
 				if (y > GROUND - ALIEN_HEIGHT) {
 					havewon = false;
 					ingame = false;
-					message = "Aliens estão invadindo a galáxia!";
+					message = "Aliens estï¿½o invadindo a galï¿½xia!";
 				}
 
 				alien.act(direction);
@@ -358,7 +357,7 @@ public class Board extends JPanel implements Runnable, Commons {
 				if (key == KeyEvent.VK_SPACE) {
 
 					if (!shot.isVisible())
-						shot = new Shot(x, y);
+						shot = (Shot) Sprite.createSprite("shot", x, y);
 				}
 			}
 		}

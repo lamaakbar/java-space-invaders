@@ -8,6 +8,7 @@ import javax.swing.ImageIcon;
  */
 public class Player extends Sprite implements Commons {
 
+	private static Player instance;
 	private final int START_Y = 400;
 	private final int START_X = 270;
 
@@ -15,9 +16,9 @@ public class Player extends Sprite implements Commons {
 	private int width;
 
 	/*
-	 * Constructor
+	 * Private Constructor for Singleton pattern
 	 */
-	public Player() {
+	private Player() {
 		ImageIcon ii = new ImageIcon(this.getClass().getResource(player));
 
 		width = ii.getImage().getWidth(null);
@@ -25,6 +26,16 @@ public class Player extends Sprite implements Commons {
 		setImage(ii.getImage());
 		setX(START_X);
 		setY(START_Y);
+	}
+
+	/*
+	 * Singleton getInstance method
+	 */
+	public static Player getInstance() {
+		if (instance == null) {
+			instance = new Player();
+		}
+		return instance;
 	}
 
 	public void act() {
