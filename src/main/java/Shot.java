@@ -17,4 +17,11 @@ public class Shot extends Sprite {
         setX(x + H_SPACE);
         setY(y - V_SPACE);
     }
+
+    public void initializeFromPlayerPosition(int x, int y) {
+        ImageIcon ii = new ImageIcon(this.getClass().getResource(shot));
+        setImage(ii.getImage());
+        setX(x + H_SPACE);
+        setY(y - V_SPACE);
+    }
 }
