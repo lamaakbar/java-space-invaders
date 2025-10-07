@@ -74,7 +74,7 @@ public class Sprite implements Cloneable {
         }
 
         /*
-         * Factory Method for creating different types of sprites
+         * Prototype registry
          */
         private static final Map<String, Sprite> TYPE_TO_PROTOTYPE = new HashMap<String, Sprite>();
 
@@ -105,7 +105,7 @@ public class Sprite implements Cloneable {
         }
 
         /*
-         * Factory Method for creating sprites with coordinates
+         * Factory Method for creating sprites 
          */
         public static Sprite createSprite(String type, int x, int y) {
             Sprite sprite = cloneFromPrototype(type);
