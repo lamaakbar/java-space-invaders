@@ -103,7 +103,6 @@ public class Sprite implements Cloneable {
         public static Sprite createSprite(String type) {
             return cloneFromPrototype(type);
         }
-
         /*
          * Factory Method for creating sprites 
          */
@@ -120,4 +119,5 @@ public class Sprite implements Cloneable {
             }
             return sprite;
         }
+        
 }

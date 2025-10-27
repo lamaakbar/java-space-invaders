@@ -23,5 +23,7 @@ public class Shot extends Sprite {
         setImage(ii.getImage());
         setX(x + H_SPACE);
         setY(y - V_SPACE);
+                SoundManager.playShotSound();
+
     }
 }

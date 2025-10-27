@@ -6,11 +6,9 @@ import java.awt.Graphics;
 import java.awt.Toolkit;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Random;
-
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
@@ -29,6 +27,7 @@ public class Board extends JPanel implements Runnable, Commons {
 	private ArrayList aliens;
 	private Player player;
 	private Shot shot;
+    private final SoundEffect soundEffect;
 	private GameOver gameend;
 	private Won vunnet;
 
@@ -49,10 +48,12 @@ public class Board extends JPanel implements Runnable, Commons {
 	 * Constructor
 	 */
 	public Board() {
-		addKeyListener(new TAdapter());
-		setFocusable(true);
-		d = new Dimension(BOARD_WIDTH, BOARD_HEIGTH);
-		setBackground(Color.black);
+	    addKeyListener(new TAdapter());
+                setFocusable(true);
+                d = new Dimension(BOARD_WIDTH, BOARD_HEIGTH);
+                setBackground(Color.black);
+
+                soundEffect = new SoundAdapter();
 
 		gameInit();
 		setDoubleBuffered(true);
@@ -166,8 +167,12 @@ public class Board extends JPanel implements Runnable, Commons {
 		g.fillRect(0, 0, BOARD_WIDTH, BOARD_HEIGTH);
 		if (havewon == true) {
 			g.drawImage(vunnet.getImage(), 0, 0, this);
+						SoundManager.playVictorySound();
+
 		} else {
 			g.drawImage(gameend.getImage(), 0, 0, this);
+						SoundManager.playDefeatSound();
+
 		}
 		g.setColor(new Color(0, 32, 48));
 		g.fillRect(50, BOARD_WIDTH / 2 - 30, BOARD_WIDTH - 100, 50);
@@ -211,9 +216,12 @@ public class Board extends JPanel implements Runnable, Commons {
 						ImageIcon ii = new ImageIcon(getClass().getResource(
 								expl));
 						alien.setImage(ii.getImage());
-						alien.setDying(true);
-						deaths++;
-						shot.die();
+                                                alien.setDying(true);
+                                                soundEffect.playExplosionSound();
+                                                deaths++;
+                                                shot.die();
+												SoundManager.playExplosionSound();
+
 					}
 				}
 			}
@@ -299,10 +307,14 @@ public class Board extends JPanel implements Runnable, Commons {
 						&& bombY <= (playerY + PLAYER_HEIGHT)) {
 					ImageIcon ii = new ImageIcon(this.getClass().getResource(
 							expl));
-					player.setImage(ii.getImage());
-					player.setDying(true);
-					b.setDestroyed(true);
-					;
+					    player.setImage(ii.getImage());
+                            player.setDying(true);
+                                soundEffect.playExplosionSound();
+                                    b.setDestroyed(true);
+                                ;
+
+								SoundManager.playExplosionSound();
+
 				}
 			}
 
@@ -356,10 +368,12 @@ public class Board extends JPanel implements Runnable, Commons {
 				int key = e.getKeyCode();
 				if (key == KeyEvent.VK_SPACE) {
 
-					if (!shot.isVisible())
-						shot = (Shot) Sprite.createSprite("shot", x, y);
-				}
-			}
-		}
-	}
+                                        if (!shot.isVisible()) {
+                                                shot = (Shot) Sprite.createSprite("shot", x, y);
+                                                soundEffect.playShootSound();
+                                        }
+                                }
+                        }
+                }
+        }
 }
