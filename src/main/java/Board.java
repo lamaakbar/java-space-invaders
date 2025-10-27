@@ -28,7 +28,8 @@ public class Board extends JPanel implements Runnable, Commons {
 	private Dimension d;
 	private ArrayList aliens;
 	private Player player;
-	private Shot shot;
+        private Shot shot;
+        private final SoundEffect soundEffect;
 	private GameOver gameend;
 	private Won vunnet;
 
@@ -49,10 +50,12 @@ public class Board extends JPanel implements Runnable, Commons {
 	 * Constructor
 	 */
 	public Board() {
-		addKeyListener(new TAdapter());
-		setFocusable(true);
-		d = new Dimension(BOARD_WIDTH, BOARD_HEIGTH);
-		setBackground(Color.black);
+                addKeyListener(new TAdapter());
+                setFocusable(true);
+                d = new Dimension(BOARD_WIDTH, BOARD_HEIGTH);
+                setBackground(Color.black);
+
+                soundEffect = new SoundAdapter();
 
 		gameInit();
 		setDoubleBuffered(true);
@@ -210,10 +213,11 @@ public class Board extends JPanel implements Runnable, Commons {
 							&& shotY <= (alienY + ALIEN_HEIGHT)) {
 						ImageIcon ii = new ImageIcon(getClass().getResource(
 								expl));
-						alien.setImage(ii.getImage());
-						alien.setDying(true);
-						deaths++;
-						shot.die();
+                                                alien.setImage(ii.getImage());
+                                                alien.setDying(true);
+                                                soundEffect.playExplosionSound();
+                                                deaths++;
+                                                shot.die();
 					}
 				}
 			}
@@ -299,10 +303,11 @@ public class Board extends JPanel implements Runnable, Commons {
 						&& bombY <= (playerY + PLAYER_HEIGHT)) {
 					ImageIcon ii = new ImageIcon(this.getClass().getResource(
 							expl));
-					player.setImage(ii.getImage());
-					player.setDying(true);
-					b.setDestroyed(true);
-					;
+                                        player.setImage(ii.getImage());
+                                        player.setDying(true);
+                                        soundEffect.playExplosionSound();
+                                        b.setDestroyed(true);
+                                        ;
 				}
 			}
 
@@ -356,10 +361,12 @@ public class Board extends JPanel implements Runnable, Commons {
 				int key = e.getKeyCode();
 				if (key == KeyEvent.VK_SPACE) {
 
-					if (!shot.isVisible())
-						shot = (Shot) Sprite.createSprite("shot", x, y);
-				}
-			}
-		}
-	}
+                                        if (!shot.isVisible()) {
+                                                shot = (Shot) Sprite.createSprite("shot", x, y);
+                                                soundEffect.playShootSound();
+                                        }
+                                }
+                        }
+                }
+        }
 }
