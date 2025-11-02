@@ -80,6 +80,7 @@ for (int i = 0; i < 4; i++) {
         aliens.add(alien);
     }
 }
+System.out.println("Flyweights loaded: " + AlienFlyweightFactory.getFlyweightCount());
 
 		player = Player.getInstance();
 		shot = (Shot) Sprite.createSprite("shot");

@@ -1,20 +1,28 @@
 
-
-import javax.swing.ImageIcon;
+import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 
-public final class AlienFlyweightFactory {
-    private static final Map<String, AlienFlyweight> CACHE = new ConcurrentHashMap<>();
+/**
+ * Factory that manages and provides shared AlienFlyweight instances.
+ * Ensures each unique image resource is only loaded once.
+ */
+public class AlienFlyweightFactory {
 
-    public static AlienFlyweight getFlyweight(String resourcePath, Class<?> resourceOwner) {
-        return CACHE.computeIfAbsent(resourcePath, key -> {
-            ImageIcon ii = new ImageIcon(resourceOwner.getResource(resourcePath));
-            return new AlienFlyweight(resourcePath, ii.getImage());
-        });
+    // Cache of flyweights by resource path
+    private static final Map<String, AlienFlyweight> flyweights = new HashMap<>();
+
+    /**
+     * Returns a shared AlienFlyweight for the given resource path.
+     */
+    public static AlienFlyweight getFlyweight(String resourcePath, Class<?> context) {
+        if (!flyweights.containsKey(resourcePath)) {
+            flyweights.put(resourcePath, new AlienFlyweight(resourcePath, context));
+        }
+        return flyweights.get(resourcePath);
     }
 
-    public static void clearCache() {
-        CACHE.clear();
+    // Optional: for testing or debugging
+    public static int getFlyweightCount() {
+        return flyweights.size();
     }
 }
