@@ -3,6 +3,7 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
+import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -65,17 +66,21 @@ public class Board extends JPanel implements Runnable, Commons {
 	}
 
 	public void gameInit() {
-		aliens = new ArrayList();
+		
+		aliens = new ArrayList<>();
+		
 
-		ImageIcon ii = new ImageIcon(this.getClass().getResource(alienpix));
+		AlienFlyweight aw = AlienFlyweightFactory.getFlyweight(alienpix, this.getClass());
+Image sharedAlienImage = aw.getSprite();
 
-		for (int i = 0; i < 4; i++) {
-			for (int j = 0; j < 6; j++) {
-				Alien alien = (Alien) Sprite.createSprite("alien", alienX + 18 * j, alienY + 18 * i);
-				alien.setImage(ii.getImage());
-				aliens.add(alien);
-			}
-		}
+for (int i = 0; i < 4; i++) {
+    for (int j = 0; j < 6; j++) {
+        Alien alien = (Alien) Sprite.createSprite("alien", alienX + 18 * j, alienY + 18 * i);
+        alien.setImage(sharedAlienImage);
+        aliens.add(alien);
+    }
+}
+System.out.println("Flyweights loaded: " + AlienFlyweightFactory.getFlyweightCount());
 
 		player = Player.getInstance();
 		shot = (Shot) Sprite.createSprite("shot");
@@ -191,7 +196,7 @@ public class Board extends JPanel implements Runnable, Commons {
 	public void animationCycle() {
 		if (deaths == NUMBER_OF_ALIENS_TO_DESTROY) {
 			ingame = false;
-			message = "Parab�ns! Voc� salvou a gal�xia!";
+			message = "Parab ns! Voc  salvou a gal xia!";
 		}
 
 		// player
@@ -273,7 +278,7 @@ public class Board extends JPanel implements Runnable, Commons {
 				if (y > GROUND - ALIEN_HEIGHT) {
 					havewon = false;
 					ingame = false;
-					message = "Aliens est�o invadindo a gal�xia!";
+					message = "Aliens est o invadindo a gal xia!";
 				}
 
 				alien.act(direction);
